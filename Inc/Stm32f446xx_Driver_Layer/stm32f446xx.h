@@ -359,7 +359,12 @@ typedef struct
 /*
  * Clock Disable Macros for USARTx peripherals
  */
-
+#define USART1_PCCK_DI() (RCC->APB2ENR &= ~(1 << 4))
+#define USART2_PCCK_DI() (RCC->APB1ENR &= ~(1 << 17))
+#define USART3_PCCK_DI() (RCC->APB1ENR &= ~(1 << 18))
+#define UART4_PCCK_DI()  (RCC->APB1ENR &= ~(1 << 19))
+#define UART5_PCCK_DI()  (RCC->APB1ENR &= ~(1 << 20))
+#define USART6_PCCK_DI() (RCC->APB1ENR &= ~(1 << 5))
 
 /*
  * Clock Disable Macros for SYSCFG peripheral
@@ -621,7 +626,8 @@ typedef struct
 #define USART_SR_CTS        			9
 
 #include "stm32f446xx_gpio_driver.h"
-
+#include"STM32F446xx_rcc_driver.h"
+#include"STM32F446xx_uart_driver.h"
 
 
 #endif /* STM32F446XX_DRIVER_LAYER_STM32F446XX_H_ */

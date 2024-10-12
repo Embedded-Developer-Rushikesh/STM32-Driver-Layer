@@ -1,5 +1,7 @@
+"./Inc/Stm32f446xx_Driver_Layer/STM32F446xx_rcc_driver.o"
+"./Inc/Stm32f446xx_Driver_Layer/STM32F446xx_uart_driver.o"
 "./Inc/Stm32f446xx_Driver_Layer/stm32f446xx_gpio_driver.o"
-"./Src/gpio_intrupt.o"
 "./Src/syscalls.o"
 "./Src/sysmem.o"
+"./Src/uart_tx.o"
 "./Startup/startup_stm32f446retx.o"

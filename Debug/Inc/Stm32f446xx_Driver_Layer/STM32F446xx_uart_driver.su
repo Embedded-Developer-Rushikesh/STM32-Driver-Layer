@@ -1,0 +1,7 @@
+../Inc/Stm32f446xx_Driver_Layer/STM32F446xx_uart_driver.c:23:6:USART_PeriClockControl	16	static
+../Inc/Stm32f446xx_Driver_Layer/STM32F446xx_uart_driver.c:81:6:USART_SetBaudRate	40	static
+../Inc/Stm32f446xx_Driver_Layer/STM32F446xx_uart_driver.c:158:6:USART_Init	16	static
+../Inc/Stm32f446xx_Driver_Layer/STM32F446xx_uart_driver.c:273:6:USART_PeripheralControl	16	static
+../Inc/Stm32f446xx_Driver_Layer/STM32F446xx_uart_driver.c:298:9:USART_GetFlagStatus	16	static
+../Inc/Stm32f446xx_Driver_Layer/STM32F446xx_uart_driver.c:321:6:USART_SendData	32	static
+../Inc/Stm32f446xx_Driver_Layer/STM32F446xx_uart_driver.c:381:6:USART_ReceiveData	32	static

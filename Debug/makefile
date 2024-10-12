@@ -60,8 +60,8 @@ all: main-build
 main-build: STM32_Drivers_Layer.elf secondary-outputs
 
 # Tool invocations
-STM32_Drivers_Layer.elf STM32_Drivers_Layer.map: $(OBJS) $(USER_OBJS) E:\Github\git_repository\STM32_Drivers\STM32_gpio_application\STM32-Driver-Layer\STM32F446RETX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "STM32_Drivers_Layer.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"E:\Github\git_repository\STM32_Drivers\STM32_gpio_application\STM32-Driver-Layer\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="STM32_Drivers_Layer.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+STM32_Drivers_Layer.elf STM32_Drivers_Layer.map: $(OBJS) $(USER_OBJS) E:\Github\git_repository\STM32_Drivers\STM32_uart_application\STM32-Driver-Layer\STM32F446RETX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "STM32_Drivers_Layer.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"E:\Github\git_repository\STM32_Drivers\STM32_uart_application\STM32-Driver-Layer\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="STM32_Drivers_Layer.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
