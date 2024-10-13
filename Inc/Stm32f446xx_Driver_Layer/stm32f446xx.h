@@ -34,6 +34,11 @@
 #define NVIC_ICER2  		((__vo uint32_t*)0XE000E188)
 #define NVIC_ICER3			((__vo uint32_t*)0XE000E18C)
 
+/*
+ * ARM Cortex Mx Processor SysTick Register
+ */
+#define SCS_BASE            (0xE000E000UL)
+#define SysTick_BASE        (SCS_BASE +  0x0010UL)
 
 /*
  * ARM Cortex Mx Processor Priority Register Address Calculation
@@ -108,7 +113,7 @@
 #define USART6_BASEADDR						(APB2PERIPH_BASEADDR + 0x1400)
 
 
-
+#define SysTick             ((SysTick_Type   *)     SysTick_BASE  )   /*!< SysTick configuration struct */
 
 
 /**********************************peripheral register definition structures **********************************/
@@ -133,7 +138,16 @@ typedef struct
 	__vo uint32_t AFR[2];					 /*!< AFR[0] : GPIO alternate function low register, AF[1] : GPIO alternate function high register    		Address offset: 0x20-0x24 */
 }GPIO_RegDef_t;
 
-
+/*
+ * peripheral register definition structure for Systeck peripheral
+ */
+typedef struct
+{
+	__vo uint32_t CTRL;                   /*!< Offset: 0x000 (R/W)  SysTick Control and Status Register */
+	__vo uint32_t LOAD;                   /*!< Offset: 0x004 (R/W)  SysTick Reload Value Register */
+	__vo uint32_t VAL;                    /*!< Offset: 0x008 (R/W)  SysTick Current Value Register */
+	__vo  uint32_t CALIB;                  /*!< Offset: 0x00C (R/ )  SysTick Calibration Register */
+} SysTick_Type;
 
 /*
  * peripheral register definition structure for RCC
@@ -628,6 +642,6 @@ typedef struct
 #include "stm32f446xx_gpio_driver.h"
 #include"STM32F446xx_rcc_driver.h"
 #include"STM32F446xx_uart_driver.h"
-
+#include"stm32f446xx_SysTick_driver.h"
 
 #endif /* STM32F446XX_DRIVER_LAYER_STM32F446XX_H_ */

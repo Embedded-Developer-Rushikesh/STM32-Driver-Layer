@@ -1,0 +1,6 @@
+../Src/uart_rx.c:22:6:USART2_Init	1
+../Src/uart_rx.c:33:6:USART2_GPIOInit	1
+../Src/uart_rx.c:54:6:LED1_Init	1
+../Src/uart_rx.c:66:5:main	2
+../Src/uart_rx.c:96:7:uart_set_baudrate	1
+../Src/uart_rx.c:101:11:compute_uart_bd	1

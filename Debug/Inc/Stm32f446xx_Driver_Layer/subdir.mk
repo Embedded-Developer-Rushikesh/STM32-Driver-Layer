@@ -7,16 +7,19 @@
 C_SRCS += \
 ../Inc/Stm32f446xx_Driver_Layer/STM32F446xx_rcc_driver.c \
 ../Inc/Stm32f446xx_Driver_Layer/STM32F446xx_uart_driver.c \
+../Inc/Stm32f446xx_Driver_Layer/stm32f446xx_SysTick_driver.c \
 ../Inc/Stm32f446xx_Driver_Layer/stm32f446xx_gpio_driver.c 
 
 OBJS += \
 ./Inc/Stm32f446xx_Driver_Layer/STM32F446xx_rcc_driver.o \
 ./Inc/Stm32f446xx_Driver_Layer/STM32F446xx_uart_driver.o \
+./Inc/Stm32f446xx_Driver_Layer/stm32f446xx_SysTick_driver.o \
 ./Inc/Stm32f446xx_Driver_Layer/stm32f446xx_gpio_driver.o 
 
 C_DEPS += \
 ./Inc/Stm32f446xx_Driver_Layer/STM32F446xx_rcc_driver.d \
 ./Inc/Stm32f446xx_Driver_Layer/STM32F446xx_uart_driver.d \
+./Inc/Stm32f446xx_Driver_Layer/stm32f446xx_SysTick_driver.d \
 ./Inc/Stm32f446xx_Driver_Layer/stm32f446xx_gpio_driver.d 
 
 
@@ -27,7 +30,7 @@ Inc/Stm32f446xx_Driver_Layer/%.o Inc/Stm32f446xx_Driver_Layer/%.su Inc/Stm32f446
 clean: clean-Inc-2f-Stm32f446xx_Driver_Layer
 
 clean-Inc-2f-Stm32f446xx_Driver_Layer:
-	-$(RM) ./Inc/Stm32f446xx_Driver_Layer/STM32F446xx_rcc_driver.cyclo ./Inc/Stm32f446xx_Driver_Layer/STM32F446xx_rcc_driver.d ./Inc/Stm32f446xx_Driver_Layer/STM32F446xx_rcc_driver.o ./Inc/Stm32f446xx_Driver_Layer/STM32F446xx_rcc_driver.su ./Inc/Stm32f446xx_Driver_Layer/STM32F446xx_uart_driver.cyclo ./Inc/Stm32f446xx_Driver_Layer/STM32F446xx_uart_driver.d ./Inc/Stm32f446xx_Driver_Layer/STM32F446xx_uart_driver.o ./Inc/Stm32f446xx_Driver_Layer/STM32F446xx_uart_driver.su ./Inc/Stm32f446xx_Driver_Layer/stm32f446xx_gpio_driver.cyclo ./Inc/Stm32f446xx_Driver_Layer/stm32f446xx_gpio_driver.d ./Inc/Stm32f446xx_Driver_Layer/stm32f446xx_gpio_driver.o ./Inc/Stm32f446xx_Driver_Layer/stm32f446xx_gpio_driver.su
+	-$(RM) ./Inc/Stm32f446xx_Driver_Layer/STM32F446xx_rcc_driver.cyclo ./Inc/Stm32f446xx_Driver_Layer/STM32F446xx_rcc_driver.d ./Inc/Stm32f446xx_Driver_Layer/STM32F446xx_rcc_driver.o ./Inc/Stm32f446xx_Driver_Layer/STM32F446xx_rcc_driver.su ./Inc/Stm32f446xx_Driver_Layer/STM32F446xx_uart_driver.cyclo ./Inc/Stm32f446xx_Driver_Layer/STM32F446xx_uart_driver.d ./Inc/Stm32f446xx_Driver_Layer/STM32F446xx_uart_driver.o ./Inc/Stm32f446xx_Driver_Layer/STM32F446xx_uart_driver.su ./Inc/Stm32f446xx_Driver_Layer/stm32f446xx_SysTick_driver.cyclo ./Inc/Stm32f446xx_Driver_Layer/stm32f446xx_SysTick_driver.d ./Inc/Stm32f446xx_Driver_Layer/stm32f446xx_SysTick_driver.o ./Inc/Stm32f446xx_Driver_Layer/stm32f446xx_SysTick_driver.su ./Inc/Stm32f446xx_Driver_Layer/stm32f446xx_gpio_driver.cyclo ./Inc/Stm32f446xx_Driver_Layer/stm32f446xx_gpio_driver.d ./Inc/Stm32f446xx_Driver_Layer/stm32f446xx_gpio_driver.o ./Inc/Stm32f446xx_Driver_Layer/stm32f446xx_gpio_driver.su
 
 .PHONY: clean-Inc-2f-Stm32f446xx_Driver_Layer
 

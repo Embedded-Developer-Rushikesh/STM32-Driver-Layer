@@ -436,5 +436,4 @@ void USART_ReceiveData(USART_Handle_t *pUSARTHandle, uint8_t *pRxBuffer, uint32_
 				pRxBuffer++;
 			}
 		}
-
 }

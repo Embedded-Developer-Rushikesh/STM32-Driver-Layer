@@ -1,4 +1,4 @@
-../Inc/Stm32f446xx_Driver_Layer/stm32f446xx_gpio_driver.c:25:6:GPIO_Init	18
+../Inc/Stm32f446xx_Driver_Layer/stm32f446xx_gpio_driver.c:25:6:GPIO_Init	17
 ../Inc/Stm32f446xx_Driver_Layer/stm32f446xx_gpio_driver.c:124:6:GPIO_PeriClockControl	20
 ../Inc/Stm32f446xx_Driver_Layer/stm32f446xx_gpio_driver.c:187:6:GPIO_DeInit	10
 ../Inc/Stm32f446xx_Driver_Layer/stm32f446xx_gpio_driver.c:235:9:GPIO_ReadFromInputPin	1

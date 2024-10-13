@@ -7,27 +7,29 @@
 C_SRCS += \
 ../Src/syscalls.c \
 ../Src/sysmem.c \
-../Src/uart_tx.c 
+../Src/uart_rx.c 
 
 OBJS += \
 ./Src/syscalls.o \
 ./Src/sysmem.o \
-./Src/uart_tx.o 
+./Src/uart_rx.o 
 
 C_DEPS += \
 ./Src/syscalls.d \
 ./Src/sysmem.d \
-./Src/uart_tx.d 
+./Src/uart_rx.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes
 Src/%.o Src/%.su Src/%.cyclo: ../Src/%.c Src/subdir.mk
 	arm-none-eabi-gcc "$<" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F4 -DSTM32F446RETx -DNUCLEO_F446RE -c -I../Inc -I"E:/Github/git_repository/STM32_Drivers/STM32_uart_application/STM32-Driver-Layer/Inc/Stm32f446xx_Driver_Layer" -I"E:/Github/git_repository/STM32_Drivers/STM32_uart_application/STM32-Driver-Layer/Inc" -I"E:/Github/git_repository/STM32_Drivers/STM32_uart_application/STM32-Driver-Layer/Src" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"$(@:%.o=%.d)" -MT"$@" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "$@"
+Src/uart_rx.o: ../Src/uart_rx.c Src/subdir.mk
+	arm-none-eabi-gcc "$<" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F4 -DSTM32F446RETx -DNUCLEO_F446RE -c -I../Inc -I"E:/Github/git_repository/STM32_Drivers/STM32_uart_application/STM32-Driver-Layer/Inc/Stm32f446xx_Driver_Layer" -I"E:/Github/git_repository/STM32_Drivers/STM32_uart_application/STM32-Driver-Layer/Inc" -I"E:/Github/git_repository/STM32_Drivers/STM32_uart_application/STM32-Driver-Layer/Src" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"$(@:%.o=%.d)" -MT"$@" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "$@"
 
 clean: clean-Src
 
 clean-Src:
-	-$(RM) ./Src/syscalls.cyclo ./Src/syscalls.d ./Src/syscalls.o ./Src/syscalls.su ./Src/sysmem.cyclo ./Src/sysmem.d ./Src/sysmem.o ./Src/sysmem.su ./Src/uart_tx.cyclo ./Src/uart_tx.d ./Src/uart_tx.o ./Src/uart_tx.su
+	-$(RM) ./Src/syscalls.cyclo ./Src/syscalls.d ./Src/syscalls.o ./Src/syscalls.su ./Src/sysmem.cyclo ./Src/sysmem.d ./Src/sysmem.o ./Src/sysmem.su ./Src/uart_rx.cyclo ./Src/uart_rx.d ./Src/uart_rx.o ./Src/uart_rx.su
 
 .PHONY: clean-Src
 

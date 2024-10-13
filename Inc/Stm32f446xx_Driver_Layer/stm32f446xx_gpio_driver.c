@@ -92,11 +92,11 @@ void GPIO_Init(GPIO_Handle_t *pGPIOHandle)
 //	pGPIOHandle->pGPIOx->OTYPER|=temp;
 //
 	//Alternative Functionality Mode
-	if(pGPIOHandle->GPIO_PinConfig.GPIO_PinAltFunMode==GPIO_MODE_ALTFN)
-	{
+//	if(pGPIOHandle->GPIO_PinConfig.GPIO_PinAltFunMode==GPIO_MODE_ALTFN)
+//	{
 		pGPIOHandle->pGPIOx->AFR[pGPIOHandle->GPIO_PinConfig.GPIO_PinNumber/8]&=~(0xF<<(4*(pGPIOHandle->GPIO_PinConfig.GPIO_PinNumber %8)));
-		pGPIOHandle->pGPIOx->AFR[pGPIOHandle->GPIO_PinConfig.GPIO_PinNumber/8]|=(pGPIOHandle->GPIO_PinConfig.GPIO_PinNumber)<<(4*(pGPIOHandle->GPIO_PinConfig.GPIO_PinNumber %8));
-	}
+		pGPIOHandle->pGPIOx->AFR[pGPIOHandle->GPIO_PinConfig.GPIO_PinNumber/8]|=(pGPIOHandle->GPIO_PinConfig.GPIO_PinAltFunMode)<<(4*(pGPIOHandle->GPIO_PinConfig.GPIO_PinNumber %8));
+//	}
 	//2. configure the GPIO port selection in SYSCFG_EXTICR
 	uint8_t temp1 = pGPIOHandle->GPIO_PinConfig.GPIO_PinNumber / 4 ;
 	uint8_t temp2 = pGPIOHandle->GPIO_PinConfig.GPIO_PinNumber % 4;
