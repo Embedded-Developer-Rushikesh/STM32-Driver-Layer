@@ -124,7 +124,7 @@
 					</fileInfo>
 					<sourceEntries>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Inc"/>
-						<entry excluding="Led_Toggle.c|uart_tx.c|main.c|gpio_intrupt.c|Button_Led_control.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Src"/>
+						<entry excluding="uart_rx.c|Led_Toggle.c|uart_tx.c|main.c|gpio_intrupt.c|Button_Led_control.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Src"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Startup"/>
 					</sourceEntries>
 				</configuration>

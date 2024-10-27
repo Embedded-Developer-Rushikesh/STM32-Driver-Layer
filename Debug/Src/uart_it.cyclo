@@ -1,0 +1,6 @@
+../Src/uart_it.c:20:6:USART2_Init	1
+../Src/uart_it.c:31:6:USART2_GPIOInit	1
+../Src/uart_it.c:52:5:main	1
+../Src/uart_it.c:82:6:uart_set_baudrate	1
+../Src/uart_it.c:87:10:compute_uart_bd	1
+../Src/uart_it.c:91:6:USART_ApplicationEventCallback	2

@@ -171,7 +171,7 @@ void USART_SetBaudRate(USART_RegDef_t *pUSARTx, uint32_t BaudRate);
 /*
  * Application Callbacks
  */
-void USART_ApplicationEventCallback(USART_Handle_t *pUSARTHandle,uint8_t ApEv);
+ extern void USART_ApplicationEventCallback(USART_Handle_t *pUSARTHandle,uint8_t ApEv);
 
 
 
