@@ -1,261 +1,357 @@
-/*
- * stm32f446xx.h
- *
- *  Created on: Oct 2, 2024
- *      Author: DELL
- */
+/**
+  ******************************************************************************
+  * @file    stm32f446xx.h
+  * @brief   This file contains:
+  *          - Processor and peripheral register definitions
+  *          - Memory map and base addresses
+  *          - Clock enable/disable macros
+  *          - Peripheral register structures
+  *          - Interrupt numbers and priority levels
+  *          - Bit position definitions for various peripherals
+  *
+  * @note    This file should be included in all driver source files
+  *          for proper register access and peripheral control
+  ******************************************************************************
+  */
 
 #ifndef STM32F446XX_DRIVER_LAYER_STM32F446XX_H_
 #define STM32F446XX_DRIVER_LAYER_STM32F446XX_H_
-#include<stddef.h>
-#include<stdint.h>
+#include <stddef.h>
+#include <stdint.h>
 
-#define __vo volatile
-#define __weak __attribute__((weak))
+/* Macros for volatile and weak attributes */
+#define __vo volatile      /*!< Macro to denote volatile variables */
+#define __weak __attribute__((weak)) /*!< Macro for weak function definitions */
 
+/********************************** Processor Specific Details **********************************/
 
-
-/**********************************START:Processor Specific Details **********************************/
-/*
- * ARM Cortex Mx Processor NVIC ISERx register Addresses
- */
-
-#define NVIC_ISER0          ( (__vo uint32_t*)0xE000E100 )
-#define NVIC_ISER1          ( (__vo uint32_t*)0xE000E104 )
-#define NVIC_ISER2          ( (__vo uint32_t*)0xE000E108 )
-#define NVIC_ISER3          ( (__vo uint32_t*)0xE000E10c )
+/* ARM Cortex Mx Processor NVIC Register Addresses */
+#define NVIC_ISER0          ((__vo uint32_t*)0xE000E100) /*!< Interrupt Set Enable Register 0 */
+#define NVIC_ISER1          ((__vo uint32_t*)0xE000E104) /*!< Interrupt Set Enable Register 1 */
+#define NVIC_ISER2          ((__vo uint32_t*)0xE000E108) /*!< Interrupt Set Enable Register 2 */
+#define NVIC_ISER3          ((__vo uint32_t*)0xE000E10C) /*!< Interrupt Set Enable Register 3 */
 
 
 /*
  * ARM Cortex Mx Processor NVIC ICERx register Addresses
  */
-#define NVIC_ICER0 			((__vo uint32_t*)0XE000E180)
-#define NVIC_ICER1			((__vo uint32_t*)0XE000E184)
-#define NVIC_ICER2  		((__vo uint32_t*)0XE000E188)
-#define NVIC_ICER3			((__vo uint32_t*)0XE000E18C)
+#define NVIC_ICER0         ((__vo uint32_t*)0xE000E180) /*!< Interrupt Clear Enable Register 0 */
+#define NVIC_ICER1         ((__vo uint32_t*)0xE000E184) /*!< Interrupt Clear Enable Register 1 */
+#define NVIC_ICER2         ((__vo uint32_t*)0xE000E188) /*!< Interrupt Clear Enable Register 2 */
+#define NVIC_ICER3         ((__vo uint32_t*)0xE000E18C) /*!< Interrupt Clear Enable Register 3 */
 
+/* ARM Cortex Mx Processor SysTick Registers */
+#define SCS_BASE           (0xE000E000UL)              /*!< System Control Space Base Address */
+#define SysTick_BASE       (SCS_BASE + 0x0010UL)       /*!< SysTick Base Address */
 
-/*
- * ARM Cortex Mx Processor Priority Register Address Calculation
- */
-#define NVIC_PR_BASE_ADDR 	((__vo uint32_t*)0xE000E400)
+/* ARM Cortex Mx Processor Priority Register */
+#define NVIC_PR_BASE_ADDR  ((__vo uint32_t*)0xE000E400) /*!< NVIC Priority Register Base */
+#define NO_PR_BITS_IMPLEMENTED 4                       /*!< Number of implemented priority bits */
 
-/*
- * ARM Cortex Mx Processor number of priority bits implemented in Priority Register
- */
-#define NO_PR_BITS_IMPLEMENTED  4
+/* Memory Base Addresses */
+#define FLASH_BASEADDR     0x08000000U  /*!< Flash memory base address */
+#define SRAM1_BASEADDR     0x20000000U  /*!< SRAM1 (112KB) base address */
+#define SRAM2_BASEADDR     0x2001C000U  /*!< SRAM2 (16KB) base address */
+#define ROM_BASEADDR       0x1FFF0000U  /*!< System memory (ROM) base address */
+#define SRAM               SRAM1_BASEADDR /*!< Default SRAM selection */
 
-/*
- * base addresses of Flash and SRAM memories
- */
+/* Peripheral Bus Base Addresses */
+#define PERIPH_BASEADDR    0x40000000U  /*!< Peripheral base address */
+#define APB1PERIPH_BASEADDR PERIPH_BASEADDR /*!< APB1 peripheral base address */
+#define APB2PERIPH_BASEADDR 0x40010000U /*!< APB2 peripheral base address */
+#define AHB1PERIPH_BASEADDR 0x40020000U /*!< AHB1 peripheral base address */
+#define AHB2PERIPH_BASEADDR 0x50000000U /*!< AHB2 peripheral base address */
 
-#define FLASH_BASEADDR						0x08000000U   		/*!<explain this macro briefly here  */
-#define SRAM1_BASEADDR						0x20000000U  		/*!<explain this macro briefly here  */
-#define SRAM2_BASEADDR						0x2001C000U 		/*!<explain this macro briefly here  */
-#define ROM_BASEADDR						0x1FFF0000U
-#define SRAM 								SRAM1_BASEADDR
+/* AHB1 Peripheral Base Addresses */
+#define GPIOA_BASEADDR     (AHB1PERIPH_BASEADDR + 0x0000) /*!< GPIOA base address */
+#define GPIOB_BASEADDR     (AHB1PERIPH_BASEADDR + 0x0400) /*!< GPIOB base address */
+#define GPIOC_BASEADDR     (AHB1PERIPH_BASEADDR + 0x0800) /*!< GPIOC base address */
+#define GPIOD_BASEADDR     (AHB1PERIPH_BASEADDR + 0x0C00) /*!< GPIOD base address */
+#define GPIOE_BASEADDR     (AHB1PERIPH_BASEADDR + 0x1000) /*!< GPIOE base address */
+#define GPIOF_BASEADDR     (AHB1PERIPH_BASEADDR + 0x1400) /*!< GPIOF base address */
+#define GPIOG_BASEADDR     (AHB1PERIPH_BASEADDR + 0x1800) /*!< GPIOG base address */
+#define GPIOH_BASEADDR     (AHB1PERIPH_BASEADDR + 0x1C00) /*!< GPIOH base address */
+#define GPIOI_BASEADDR     (AHB1PERIPH_BASEADDR + 0x2000) /*!< GPIOI base address */
+#define RCC_BASEADDR       (AHB1PERIPH_BASEADDR + 0x3800) /*!< RCC base address */
 
+/* APB1 Peripheral Base Addresses */
+#define I2C1_BASEADDR      (APB1PERIPH_BASEADDR + 0x5400) /*!< I2C1 base address */
+#define I2C2_BASEADDR      (APB1PERIPH_BASEADDR + 0x5800) /*!< I2C2 base address */
+#define I2C3_BASEADDR      (APB1PERIPH_BASEADDR + 0x5C00) /*!< I2C3 base address */
+#define SPI2_BASEADDR      (APB1PERIPH_BASEADDR + 0x3800) /*!< SPI2 base address */
+#define SPI3_BASEADDR      (APB1PERIPH_BASEADDR + 0x3C00) /*!< SPI3 base address */
+#define USART2_BASEADDR    (APB1PERIPH_BASEADDR + 0x4400) /*!< USART2 base address */
+#define USART3_BASEADDR    (APB1PERIPH_BASEADDR + 0x4800) /*!< USART3 base address */
+#define UART4_BASEADDR     (APB1PERIPH_BASEADDR + 0x4C00) /*!< UART4 base address */
+#define UART5_BASEADDR     (APB1PERIPH_BASEADDR + 0x5000) /*!< UART5 base address */
 
-/*
- * AHBx and APBx Bus Peripheral base addresses
- */
+/* APB2 Peripheral Base Addresses */
+#define EXTI_BASEADDR      (APB2PERIPH_BASEADDR + 0x3C00) /*!< EXTI base address */
+#define SPI1_BASEADDR      (APB2PERIPH_BASEADDR + 0x3000) /*!< SPI1 base address */
+#define SYSCFG_BASEADDR    (APB2PERIPH_BASEADDR + 0x3800) /*!< SYSCFG base address */
+#define USART1_BASEADDR    (APB2PERIPH_BASEADDR + 0x1000) /*!< USART1 base address */
+#define USART6_BASEADDR    (APB2PERIPH_BASEADDR + 0x1400) /*!< USART6 base address */
 
-#define PERIPH_BASEADDR 						0x40000000U
-#define APB1PERIPH_BASEADDR						PERIPH_BASEADDR
-#define APB2PERIPH_BASEADDR						0x40010000U
-#define AHB1PERIPH_BASEADDR						0x40020000U
-#define AHB2PERIPH_BASEADDR						0x50000000U
+/* SysTick Configuration Structure */
+#define SysTick            ((SysTick_Type*)SysTick_BASE) /*!< SysTick configuration struct */
 
-/*
- * Base addresses of peripherals which are hanging on AHB1 bus
- * TODO : Complete for all other peripherals
- */
+/********************************** Peripheral Register Definition Structures **********************************/
 
-#define GPIOA_BASEADDR                   (AHB1PERIPH_BASEADDR + 0x0000)
-#define GPIOB_BASEADDR                   (AHB1PERIPH_BASEADDR + 0x0400)
-#define GPIOC_BASEADDR 					 (AHB1PERIPH_BASEADDR + 0x0800)
-#define GPIOD_BASEADDR 					 (AHB1PERIPH_BASEADDR + 0x0C00)
-#define GPIOE_BASEADDR 					 (AHB1PERIPH_BASEADDR + 0x1000)
-#define GPIOF_BASEADDR 					 (AHB1PERIPH_BASEADDR + 0x1400)
-#define GPIOG_BASEADDR 					 (AHB1PERIPH_BASEADDR + 0x1800)
-#define GPIOH_BASEADDR 					 (AHB1PERIPH_BASEADDR + 0x1C00)
-#define GPIOI_BASEADDR 					 (AHB1PERIPH_BASEADDR + 0x2000)
-#define RCC_BASEADDR                     (AHB1PERIPH_BASEADDR + 0x3800)
-/*
- * Base addresses of peripherals which are hanging on APB1 bus
- * TODO : Complete for all other peripherals
- */
-#define I2C1_BASEADDR						(APB1PERIPH_BASEADDR + 0x5400)
-#define I2C2_BASEADDR						(APB1PERIPH_BASEADDR + 0x5800)
-#define I2C3_BASEADDR						(APB1PERIPH_BASEADDR + 0x5C00)
-
-#define SPI2_BASEADDR						(APB1PERIPH_BASEADDR + 0x3800)
-#define SPI3_BASEADDR						(APB1PERIPH_BASEADDR + 0x3C00)
-
-#define USART2_BASEADDR						(APB1PERIPH_BASEADDR + 0x4400)
-#define USART3_BASEADDR						(APB1PERIPH_BASEADDR + 0x4800)
-#define UART4_BASEADDR						(APB1PERIPH_BASEADDR + 0x4C00)
-#define UART5_BASEADDR						(APB1PERIPH_BASEADDR + 0x5000)
-
-/*
- * Base addresses of peripherals which are hanging on APB2 bus
- * TODO : Complete for all other peripherals
- */
-#define EXTI_BASEADDR						(APB2PERIPH_BASEADDR + 0x3C00)
-#define SPI1_BASEADDR						(APB2PERIPH_BASEADDR + 0x3000)
-#define SYSCFG_BASEADDR        				(APB2PERIPH_BASEADDR + 0x3800)
-#define USART1_BASEADDR						(APB2PERIPH_BASEADDR + 0x1000)
-#define USART6_BASEADDR						(APB2PERIPH_BASEADDR + 0x1400)
-
-
-
-
-
-/**********************************peripheral register definition structures **********************************/
-
-/*
- * Note : Registers of a peripheral are specific to MCU
- * e.g : Number of Registers of SPI peripheral of STM32F4x family of MCUs may be different(more or less)
- * Compared to number of registers of SPI peripheral of STM32Lx or STM32F0x family of MCUs
- * Please check your Device RM
- */
-
+/**
+  * @brief GPIO Register Definition Structure
+  *
+  * @note This structure contains all registers for GPIO peripheral
+  *       Each register controls specific aspects of GPIO functionality
+  */
 typedef struct
 {
-	__vo uint32_t MODER;                        /*!< GPIO port mode register,                    	Address offset: 0x00      */
-	__vo uint32_t OTYPER;                       /*!< TODO,     										Address offset: 0x04      */
-	__vo uint32_t OSPEEDR;
-	__vo uint32_t PUPDR;
-	__vo uint32_t IDR;
-	__vo uint32_t ODR;
-	__vo uint32_t BSRR;
-	__vo uint32_t LCKR;
-	__vo uint32_t AFR[2];					 /*!< AFR[0] : GPIO alternate function low register, AF[1] : GPIO alternate function high register    		Address offset: 0x20-0x24 */
-}GPIO_RegDef_t;
+    __vo uint32_t MODER;    /*!< GPIO port mode register - Configures I/O direction (input/output/alternate/analog)
+                                Address offset: 0x00 */
+    __vo uint32_t OTYPER;   /*!< GPIO output type register - Configures output type (push-pull/open-drain)
+                                Address offset: 0x04 */
+    __vo uint32_t OSPEEDR;  /*!< GPIO output speed register - Configures I/O speed (low/medium/high/very high)
+                                Address offset: 0x08 */
+    __vo uint32_t PUPDR;    /*!< GPIO pull-up/pull-down register - Configures pull-up/pull-down resistors
+                                Address offset: 0x0C */
+    __vo uint32_t IDR;      /*!< GPIO input data register - Contains input pin values
+                                Address offset: 0x10 */
+    __vo uint32_t ODR;      /*!< GPIO output data register - Controls output pin states
+                                Address offset: 0x14 */
+    __vo uint32_t BSRR;     /*!< GPIO bit set/reset register - Atomic set/reset of output pins
+                                Address offset: 0x18 */
+    __vo uint32_t LCKR;     /*!< GPIO configuration lock register - Locks port configuration
+                                Address offset: 0x1C */
+    __vo uint32_t AFR[2];   /*!< GPIO alternate function registers - Configures alternate functions
+                                AFR[0]: Alternate function low register (pins 0-7), Address offset: 0x20
+                                AFR[1]: Alternate function high register (pins 8-15), Address offset: 0x24 */
+} GPIO_RegDef_t;
 
-
-
-/*
- * peripheral register definition structure for RCC
- */
+/**
+  * @brief SysTick Register Definition Structure
+  *
+  * @note Contains registers for ARM Cortex-M SysTick timer peripheral
+  */
 typedef struct
 {
-  __vo uint32_t CR;            /*!< TODO,     										Address offset: 0x00 */
-  __vo uint32_t PLLCFGR;       /*!< TODO,     										Address offset: 0x04 */
-  __vo uint32_t CFGR;          /*!< TODO,     										Address offset: 0x08 */
-  __vo uint32_t CIR;           /*!< TODO,     										Address offset: 0x0C */
-  __vo uint32_t AHB1RSTR;      /*!< TODO,     										Address offset: 0x10 */
-  __vo uint32_t AHB2RSTR;      /*!< TODO,     										Address offset: 0x14 */
-  __vo uint32_t AHB3RSTR;      /*!< TODO,     										Address offset: 0x18 */
-  uint32_t      RESERVED0;     /*!< Reserved, 0x1C                                                       */
-  __vo uint32_t APB1RSTR;      /*!< TODO,     										Address offset: 0x20 */
-  __vo uint32_t APB2RSTR;      /*!< TODO,     										Address offset: 0x24 */
-  uint32_t      RESERVED1[2];  /*!< Reserved, 0x28-0x2C                                                  */
-  __vo uint32_t AHB1ENR;       /*!< TODO,     										Address offset: 0x30 */
-  __vo uint32_t AHB2ENR;       /*!< TODO,     										Address offset: 0x34 */
-  __vo uint32_t AHB3ENR;       /*!< TODO,     										Address offset: 0x38 */
-  uint32_t      RESERVED2;     /*!< Reserved, 0x3C                                                       */
-  __vo uint32_t APB1ENR;       /*!< TODO,     										Address offset: 0x40 */
-  __vo uint32_t APB2ENR;       /*!< TODO,     										Address offset: 0x44 */
-  uint32_t      RESERVED3[2];  /*!< Reserved, 0x48-0x4C                                                  */
-  __vo uint32_t AHB1LPENR;     /*!< TODO,     										Address offset: 0x50 */
-  __vo uint32_t AHB2LPENR;     /*!< TODO,     										Address offset: 0x54 */
-  __vo uint32_t AHB3LPENR;     /*!< TODO,     										Address offset: 0x58 */
-  uint32_t      RESERVED4;     /*!< Reserved, 0x5C                                                       */
-  __vo uint32_t APB1LPENR;     /*!< TODO,     										Address offset: 0x60 */
-  __vo uint32_t APB2LPENR;     /*!< RTODO,     										Address offset: 0x64 */
-  uint32_t      RESERVED5[2];  /*!< Reserved, 0x68-0x6C                                                  */
-  __vo uint32_t BDCR;          /*!< TODO,     										Address offset: 0x70 */
-  __vo uint32_t CSR;           /*!< TODO,     										Address offset: 0x74 */
-  uint32_t      RESERVED6[2];  /*!< Reserved, 0x78-0x7C                                                  */
-  __vo uint32_t SSCGR;         /*!< TODO,     										Address offset: 0x80 */
-  __vo uint32_t PLLI2SCFGR;    /*!< TODO,     										Address offset: 0x84 */
-  __vo uint32_t PLLSAICFGR;    /*!< TODO,     										Address offset: 0x88 */
-  __vo uint32_t DCKCFGR;       /*!< TODO,     										Address offset: 0x8C */
-  __vo uint32_t CKGATENR;      /*!< TODO,     										Address offset: 0x90 */
-  __vo uint32_t DCKCFGR2;      /*!< TODO,     										Address offset: 0x94 */
+    __vo uint32_t CTRL;     /*!< SysTick Control and Status Register - Enables timer and checks status
+                                Offset: 0x000 (R/W) */
+    __vo uint32_t LOAD;     /*!< SysTick Reload Value Register - Sets reload value for timer
+                                Offset: 0x004 (R/W) */
+    __vo uint32_t VAL;      /*!< SysTick Current Value Register - Shows current timer value
+                                Offset: 0x008 (R/W) */
+    __vo uint32_t CALIB;    /*!< SysTick Calibration Register - Contains calibration value
+                                Offset: 0x00C (R/ ) */
+} SysTick_Type;
 
+/**
+  * @brief RCC Register Definition Structure
+  *
+  * @note Contains all registers for Reset and Clock Control (RCC) peripheral
+  *       Controls system clock configuration and peripheral clock gating
+  */
+typedef struct
+{
+    __vo uint32_t CR;            /*!< Clock control register - Controls internal/external oscillators and PLLs
+                                     Address offset: 0x00 */
+    __vo uint32_t PLLCFGR;       /*!< PLL configuration register - Configures main PLL parameters
+                                     Address offset: 0x04 */
+    __vo uint32_t CFGR;          /*!< Clock configuration register - Configures clock dividers and sources
+                                     Address offset: 0x08 */
+    __vo uint32_t CIR;           /*!< Clock interrupt register - Manages clock-related interrupts
+                                     Address offset: 0x0C */
+    __vo uint32_t AHB1RSTR;      /*!< AHB1 peripheral reset register - Resets AHB1 peripherals
+                                     Address offset: 0x10 */
+    __vo uint32_t AHB2RSTR;      /*!< AHB2 peripheral reset register - Resets AHB2 peripherals
+                                     Address offset: 0x14 */
+    __vo uint32_t AHB3RSTR;      /*!< AHB3 peripheral reset register - Resets AHB3 peripherals
+                                     Address offset: 0x18 */
+    uint32_t      RESERVED0;     /*!< Reserved register
+                                     Address offset: 0x1C */
+    __vo uint32_t APB1RSTR;      /*!< APB1 peripheral reset register - Resets APB1 peripherals
+                                     Address offset: 0x20 */
+    __vo uint32_t APB2RSTR;      /*!< APB2 peripheral reset register - Resets APB2 peripherals
+                                     Address offset: 0x24 */
+    uint32_t      RESERVED1[2];  /*!< Reserved registers
+                                     Address offset: 0x28-0x2C */
+    __vo uint32_t AHB1ENR;       /*!< AHB1 peripheral clock enable register - Enables AHB1 peripheral clocks
+                                     Address offset: 0x30 */
+    __vo uint32_t AHB2ENR;       /*!< AHB2 peripheral clock enable register - Enables AHB2 peripheral clocks
+                                     Address offset: 0x34 */
+    __vo uint32_t AHB3ENR;       /*!< AHB3 peripheral clock enable register - Enables AHB3 peripheral clocks
+                                     Address offset: 0x38 */
+    uint32_t      RESERVED2;     /*!< Reserved register
+                                     Address offset: 0x3C */
+    __vo uint32_t APB1ENR;       /*!< APB1 peripheral clock enable register - Enables APB1 peripheral clocks
+                                     Address offset: 0x40 */
+    __vo uint32_t APB2ENR;       /*!< APB2 peripheral clock enable register - Enables APB2 peripheral clocks
+                                     Address offset: 0x44 */
+    uint32_t      RESERVED3[2];  /*!< Reserved registers
+                                     Address offset: 0x48-0x4C */
+    __vo uint32_t AHB1LPENR;     /*!< AHB1 peripheral clock enable in low power mode register
+                                     Address offset: 0x50 */
+    __vo uint32_t AHB2LPENR;     /*!< AHB2 peripheral clock enable in low power mode register
+                                     Address offset: 0x54 */
+    __vo uint32_t AHB3LPENR;     /*!< AHB3 peripheral clock enable in low power mode register
+                                     Address offset: 0x58 */
+    uint32_t      RESERVED4;     /*!< Reserved register
+                                     Address offset: 0x5C */
+    __vo uint32_t APB1LPENR;     /*!< APB1 peripheral clock enable in low power mode register
+                                     Address offset: 0x60 */
+    __vo uint32_t APB2LPENR;     /*!< APB2 peripheral clock enable in low power mode register
+                                     Address offset: 0x64 */
+    uint32_t      RESERVED5[2];  /*!< Reserved registers
+                                     Address offset: 0x68-0x6C */
+    __vo uint32_t BDCR;          /*!< Backup domain control register - Controls RTC and backup domain
+                                     Address offset: 0x70 */
+    __vo uint32_t CSR;           /*!< Control/status register - Manages low-power modes and reset status
+                                     Address offset: 0x74 */
+    uint32_t      RESERVED6[2];  /*!< Reserved registers
+                                     Address offset: 0x78-0x7C */
+    __vo uint32_t SSCGR;         /*!< Spread spectrum clock generation register - Controls SSCG modulation
+                                     Address offset: 0x80 */
+    __vo uint32_t PLLI2SCFGR;    /*!< PLLI2S configuration register - Configures PLLI2S parameters
+                                     Address offset: 0x84 */
+    __vo uint32_t PLLSAICFGR;    /*!< PLLSAI configuration register - Configures PLLSAI parameters
+                                     Address offset: 0x88 */
+    __vo uint32_t DCKCFGR;       /*!< Dedicated clocks configuration register - Configures special clocks
+                                     Address offset: 0x8C */
+    __vo uint32_t CKGATENR;      /*!< Clocks gated enable register - Controls clock gating
+                                     Address offset: 0x90 */
+    __vo uint32_t DCKCFGR2;      /*!< Dedicated clocks configuration register 2 - Additional clock config
+                                     Address offset: 0x94 */
 } RCC_RegDef_t;
 
-
-
-/*
- * peripheral register definition structure for EXTI
- */
+/**
+  * @brief EXTI Register Definition Structure
+  *
+  * @note Contains registers for External Interrupt/Event Controller (EXTI)
+  */
 typedef struct
 {
-	__vo uint32_t IMR;    /*!< Give a short description,          	  	    Address offset: 0x00 */
-	__vo uint32_t EMR;    /*!< TODO,                						Address offset: 0x04 */
-	__vo uint32_t RTSR;   /*!< TODO,  									     Address offset: 0x08 */
-	__vo uint32_t FTSR;   /*!< TODO, 										Address offset: 0x0C */
-	__vo uint32_t SWIER;  /*!< TODO,  									   Address offset: 0x10 */
-	__vo uint32_t PR;     /*!< TODO,                   					   Address offset: 0x14 */
+    __vo uint32_t IMR;    /*!< Interrupt mask register - Enables interrupt lines
+                              Address offset: 0x00 */
+    __vo uint32_t EMR;    /*!< Event mask register - Enables event lines
+                              Address offset: 0x04 */
+    __vo uint32_t RTSR;   /*!< Rising trigger selection register - Configures rising edge triggers
+                              Address offset: 0x08 */
+    __vo uint32_t FTSR;   /*!< Falling trigger selection register - Configures falling edge triggers
+                              Address offset: 0x0C */
+    __vo uint32_t SWIER;  /*!< Software interrupt event register - Generates software interrupts
+                              Address offset: 0x10 */
+    __vo uint32_t PR;     /*!< Pending register - Shows and clears pending interrupts
+                              Address offset: 0x14 */
+} EXTI_RegDef_t;
 
-}EXTI_RegDef_t;
-
-
-/*
- * peripheral register definition structure for SPI
- */
+/**
+  * @brief SPI Register Definition Structure
+  *
+  * @note Contains all registers for Serial Peripheral Interface (SPI) peripheral
+  */
 typedef struct
 {
-	__vo uint32_t CR1;        /*!< TODO,     										Address offset: 0x00 */
-	__vo uint32_t CR2;        /*!< TODO,     										Address offset: 0x04 */
-	__vo uint32_t SR;         /*!< TODO,     										Address offset: 0x08 */
-	__vo uint32_t DR;         /*!< TODO,     										Address offset: 0x0C */
-	__vo uint32_t CRCPR;      /*!< TODO,     										Address offset: 0x10 */
-	__vo uint32_t RXCRCR;     /*!< TODO,     										Address offset: 0x14 */
-	__vo uint32_t TXCRCR;     /*!< TODO,     										Address offset: 0x18 */
-	__vo uint32_t I2SCFGR;    /*!< TODO,     										Address offset: 0x1C */
-	__vo uint32_t I2SPR;      /*!< TODO,     										Address offset: 0x20 */
+    __vo uint32_t CR1;        /*!< Control register 1 - Configures SPI communication parameters
+                                  Address offset: 0x00 */
+    __vo uint32_t CR2;        /*!< Control register 2 - Configures interrupts and DMA
+                                  Address offset: 0x04 */
+    __vo uint32_t SR;         /*!< Status register - Shows SPI status flags
+                                  Address offset: 0x08 */
+    __vo uint32_t DR;         /*!< Data register - Holds transmitted/received data
+                                  Address offset: 0x0C */
+    __vo uint32_t CRCPR;      /*!< CRC polynomial register - Configures CRC calculation
+                                  Address offset: 0x10 */
+    __vo uint32_t RXCRCR;     /*!< RX CRC register - Contains received CRC value
+                                  Address offset: 0x14 */
+    __vo uint32_t TXCRCR;     /*!< TX CRC register - Contains transmitted CRC value
+                                  Address offset: 0x18 */
+    __vo uint32_t I2SCFGR;    /*!< I2S configuration register - Configures I2S mode (if supported)
+                                  Address offset: 0x1C */
+    __vo uint32_t I2SPR;      /*!< I2S prescaler register - Configures I2S clock prescaler
+                                  Address offset: 0x20 */
 } SPI_RegDef_t;
 
-
-/*
- * peripheral register definition structure for SYSCFG
- */
+/**
+  * @brief SYSCFG Register Definition Structure
+  *
+  * @note Contains registers for System Configuration Controller (SYSCFG)
+  */
 typedef struct
 {
-	__vo uint32_t MEMRMP;       /*!< Give a short description,                    Address offset: 0x00      */
-	__vo uint32_t PMC;          /*!< TODO,     									  Address offset: 0x04      */
-	__vo uint32_t EXTICR[4];    /*!< TODO , 									  Address offset: 0x08-0x14 */
-	uint32_t      RESERVED1[2];  /*!< TODO          							  Reserved, 0x18-0x1C    	*/
-	__vo uint32_t CMPCR;        /*!< TODO         								  Address offset: 0x20      */
-	uint32_t      RESERVED2[2];  /*!<                                             Reserved, 0x24-0x28 	    */
-	__vo uint32_t CFGR;         /*!< TODO                                         Address offset: 0x2C   	*/
+    __vo uint32_t MEMRMP;       /*!< Memory remap register - Controls memory mapping
+                                    Address offset: 0x00 */
+    __vo uint32_t PMC;          /*!< Peripheral mode configuration register - Configures peripheral modes
+                                    Address offset: 0x04 */
+    __vo uint32_t EXTICR[4];    /*!< External interrupt configuration registers - Maps EXTI lines to GPIO ports
+                                    EXTICR[0]: Address offset: 0x08 (EXTI0-3)
+                                    EXTICR[1]: Address offset: 0x0C (EXTI4-7)
+                                    EXTICR[2]: Address offset: 0x10 (EXTI8-11)
+                                    EXTICR[3]: Address offset: 0x14 (EXTI12-15) */
+    uint32_t      RESERVED1[2]; /*!< Reserved registers
+                                    Address offset: 0x18-0x1C */
+    __vo uint32_t CMPCR;        /*!< Compensation cell control register - Controls I/O compensation
+                                    Address offset: 0x20 */
+    uint32_t      RESERVED2[2]; /*!< Reserved registers
+                                    Address offset: 0x24-0x28 */
+    __vo uint32_t CFGR;         /*!< Configuration register - Additional system configuration
+                                    Address offset: 0x2C */
 } SYSCFG_RegDef_t;
 
-
-/*
- * peripheral register definition structure for I2C
- */
+/**
+  * @brief I2C Register Definition Structure
+  *
+  * @note Contains all registers for Inter-Integrated Circuit (I2C) peripheral
+  */
 typedef struct
 {
-  __vo uint32_t CR1;        /*!< TODO,     										Address offset: 0x00 */
-  __vo uint32_t CR2;        /*!< TODO,     										Address offset: 0x04 */
-  __vo uint32_t OAR1;       /*!< TODO,     										Address offset: 0x08 */
-  __vo uint32_t OAR2;       /*!< TODO,     										Address offset: 0x0C */
-  __vo uint32_t DR;         /*!< TODO,     										Address offset: 0x10 */
-  __vo uint32_t SR1;        /*!< TODO,     										Address offset: 0x14 */
-  __vo uint32_t SR2;        /*!< TODO,     										Address offset: 0x18 */
-  __vo uint32_t CCR;        /*!< TODO,     										Address offset: 0x1C */
-  __vo uint32_t TRISE;      /*!< TODO,     										Address offset: 0x20 */
-  __vo uint32_t FLTR;       /*!< TODO,     										Address offset: 0x24 */
-}I2C_RegDef_t;
+    __vo uint32_t CR1;        /*!< Control register 1 - Configures I2C communication parameters
+                                  Address offset: 0x00 */
+    __vo uint32_t CR2;        /*!< Control register 2 - Configures clock and interrupts
+                                  Address offset: 0x04 */
+    __vo uint32_t OAR1;       /*!< Own address register 1 - Configures device's own address
+                                  Address offset: 0x08 */
+    __vo uint32_t OAR2;       /*!< Own address register 2 - Configures secondary address (if needed)
+                                  Address offset: 0x0C */
+    __vo uint32_t DR;         /*!< Data register - Holds transmitted/received data
+                                  Address offset: 0x10 */
+    __vo uint32_t SR1;        /*!< Status register 1 - Shows I2C status flags
+                                  Address offset: 0x14 */
+    __vo uint32_t SR2;        /*!< Status register 2 - Additional I2C status flags
+                                  Address offset: 0x18 */
+    __vo uint32_t CCR;        /*!< Clock control register - Configures clock timing
+                                  Address offset: 0x1C */
+    __vo uint32_t TRISE;      /*!< TRISE register - Configures rise time
+                                  Address offset: 0x20 */
+    __vo uint32_t FLTR;       /*!< FLTR register - Configures digital noise filter
+                                  Address offset: 0x24 */
+} I2C_RegDef_t;
 
-/*
- * peripheral register definition structure for USART
- */
+/**
+  * @brief USART Register Definition Structure
+  *
+  * @note Contains all registers for Universal Synchronous/Asynchronous Receiver/Transmitter (USART)
+  */
 typedef struct
 {
-	__vo uint32_t SR;         /*!< TODO,     										Address offset: 0x00 */
-	__vo uint32_t DR;         /*!< TODO,     										Address offset: 0x04 */
-	__vo uint32_t BRR;        /*!< TODO,     										Address offset: 0x08 */
-	__vo uint32_t CR1;        /*!< TODO,     										Address offset: 0x0C */
-	__vo uint32_t CR2;        /*!< TODO,     										Address offset: 0x10 */
-	__vo uint32_t CR3;        /*!< TODO,     										Address offset: 0x14 */
-	__vo uint32_t GTPR;       /*!< TODO,     										Address offset: 0x18 */
+    __vo uint32_t SR;         /*!< Status register - Shows USART status flags
+                                  Address offset: 0x00 */
+    __vo uint32_t DR;         /*!< Data register - Holds transmitted/received data
+                                  Address offset: 0x04 */
+    __vo uint32_t BRR;        /*!< Baud rate register - Configures communication speed
+                                  Address offset: 0x08 */
+    __vo uint32_t CR1;        /*!< Control register 1 - Configures basic USART parameters
+                                  Address offset: 0x0C */
+    __vo uint32_t CR2;        /*!< Control register 2 - Configures advanced features
+                                  Address offset: 0x10 */
+    __vo uint32_t CR3;        /*!< Control register 3 - Configures interrupts and DMA
+                                  Address offset: 0x14 */
+    __vo uint32_t GTPR;       /*!< Guard time and prescaler register - Configures smartcard mode
+                                  Address offset: 0x18 */
 } USART_RegDef_t;
+
+
+/* Bit Manipulation Macros */
+#define Set_Bit(bit,position)    (bit |= (1 << position))  /*!< Set specific bit in a register */
+#define Reset_Bit(bit,position)  (bit &= ~(1 << position)) /*!< Clear specific bit in a register */
+#define isBit_Set(bit,position)  (bit & (1 << position))   /*!< Check if specific bit is set */
 
 /*
  * peripheral definitions ( Peripheral base addresses typecasted to xxx_RegDef_t)
@@ -314,8 +410,9 @@ typedef struct
 #define I2C3_PCLK_EN() (RCC->APB1ENR |= (1 << 23))
 
 
+
 /*
- * Clock Enable Macros for SPIx peripheralsbu
+ * Clock Enable Macros for SPIx peripherals
  */
 #define SPI1_PCLK_EN() (RCC->APB2ENR |= (1 << 12))
 #define SPI2_PCLK_EN() (RCC->APB1ENR |= (1 << 14))
@@ -359,8 +456,26 @@ typedef struct
 /*
  * Clock Disable Macros for USARTx peripherals
  */
+#define USART1_PCCK_DI() (RCC->APB2ENR &= ~(1 << 4))
+#define USART2_PCCK_DI() (RCC->APB1ENR &= ~(1 << 17))
+#define USART3_PCCK_DI() (RCC->APB1ENR &= ~(1 << 18))
+#define UART4_PCCK_DI()  (RCC->APB1ENR &= ~(1 << 19))
+#define UART5_PCCK_DI()  (RCC->APB1ENR &= ~(1 << 20))
+#define USART6_PCCK_DI() (RCC->APB1ENR &= ~(1 << 5))
 
-
+/*
+ * Clock Disable Macros for SPIx peripherals
+ */
+#define SPI1_PCLK_DI() (RCC->APB2ENR &= ~(1 << 12))
+#define SPI2_PCLK_DI() (RCC->APB1ENR &= ~(1 << 14))
+#define SPI3_PCLK_DI() (RCC->APB1ENR &= ~(1 << 15))
+#define SPI4_PCLK_DI() (RCC->APB2ENR &= ~(1 << 13))
+/*
+ * Clock Disable Macros for SPIx peripherals
+ */
+#define I2C1_PCLK_DI() (RCC->APB1ENR &= ~(1 << 21))
+#define I2C2_PCLK_DI() (RCC->APB1ENR &= ~(1 << 22))
+#define I2C3_PCLK_DI() (RCC->APB1ENR &= ~(1 << 23))
 /*
  * Clock Disable Macros for SYSCFG peripheral
  */
@@ -369,17 +484,28 @@ typedef struct
 /*
  *  Macros to reset GPIOx peripherals
  */
-#define GPIOA_REG_RESET()               do{ (RCC->AHB1RSTR |= (1 << 0)); (RCC->AHB1RSTR &= ~(1 << 0)); }while(0)
-#define GPIOB_REG_RESET()               do{ (RCC->AHB1RSTR |= (1 << 1)); (RCC->AHB1RSTR &= ~(1 << 1)); }while(0)
-#define GPIOC_REG_RESET()               do{ (RCC->AHB1RSTR |= (1 << 2)); (RCC->AHB1RSTR &= ~(1 << 2)); }while(0)
-#define GPIOD_REG_RESET()               do{ (RCC->AHB1RSTR |= (1 << 3)); (RCC->AHB1RSTR &= ~(1 << 3)); }while(0)
-#define GPIOE_REG_RESET()               do{ (RCC->AHB1RSTR |= (1 << 4)); (RCC->AHB1RSTR &= ~(1 << 4)); }while(0)
-#define GPIOF_REG_RESET()               do{ (RCC->AHB1RSTR |= (1 << 5)); (RCC->AHB1RSTR &= ~(1 << 5)); }while(0)
-#define GPIOG_REG_RESET()               do{ (RCC->AHB1RSTR |= (1 << 6)); (RCC->AHB1RSTR &= ~(1 << 6)); }while(0)
-#define GPIOH_REG_RESET()               do{ (RCC->AHB1RSTR |= (1 << 7)); (RCC->AHB1RSTR &= ~(1 << 7)); }while(0)
-#define GPIOI_REG_RESET()               do{ (RCC->AHB1RSTR |= (1 << 8)); (RCC->AHB1RSTR &= ~(1 << 8)); }while(0)
+#define GPIOA_REG_RESET()               	do{Set_Bit(RCC->AHB1RSTR,0 ); Reset_Bit(RCC->AHB1RSTR,0);}while(0)
+#define GPIOB_REG_RESET()               	do{Set_Bit(RCC->AHB1RSTR,1); Reset_Bit(RCC->AHB1RSTR,1); }while(0)
+#define GPIOC_REG_RESET()               	do{Set_Bit(RCC->AHB1RSTR,2); Reset_Bit(RCC->AHB1RSTR,2); }while(0)
+#define GPIOD_REG_RESET()               	do{Set_Bit(RCC->AHB1RSTR,3); Reset_Bit(RCC->AHB1RSTR,3); }while(0)
+#define GPIOE_REG_RESET()               	do{Set_Bit(RCC->AHB1RSTR,4); Reset_Bit(RCC->AHB1RSTR,4); }while(0)
+#define GPIOF_REG_RESET()               	do{Set_Bit(RCC->AHB1RSTR,5); Reset_Bit(RCC->AHB1RSTR,5); }while(0)
+#define GPIOG_REG_RESET()               	do{Set_Bit(RCC->AHB1RSTR,6); Reset_Bit(RCC->AHB1RSTR,6); }while(0)
+#define GPIOH_REG_RESET()               	do{Set_Bit(RCC->AHB1RSTR,7); Reset_Bit(RCC->AHB1RSTR,7); }while(0)
+#define GPIOI_REG_RESET()               	do{Set_Bit(RCC->AHB1RSTR,8); Reset_Bit(RCC->AHB1RSTR,8); }while(0)
 
-
+/*
+ *  Macros to reset SPIx peripherals
+ */
+#define SPI1_REG_RESET()              		do{Set_Bit(RCC->AHB2RSTR,12); Reset_Bit(RCC->AHB2RSTR,12);}while(0)
+#define SPI2_REG_RESET()              		do{Set_Bit(RCC->AHB1RSTR,14);Reset_Bit(RCC->AHB2RSTR,14);}while(0)
+#define SPI3_REG_RESET()              		do{Set_Bit(RCC->AHB1RSTR,15); Reset_Bit(RCC->AHB2RSTR,15);}while(0)
+/*
+ *  Macros to reset I2Cx peripherals
+ */
+#define I2C1_REG_RESET()					do{Set_Bit(RCC->AHB1RSTR ,21);Reset_Bit(RCC->AHB1RSTR,21);}while(0)
+#define I2C2_REG_RESET()					do{Set_Bit(RCC->AHB1RSTR ,22);Reset_Bit(RCC->AHB1RSTR,22);}while(0)
+#define I2C3_REG_RESET()					do{Set_Bit(RCC->AHB1RSTR ,23);Reset_Bit(RCC->AHB1RSTR,23);}while(0)
 /*
  *  returns port code for given GPIOx base address
  */
@@ -428,7 +554,8 @@ typedef struct
  * macros for all the possible priority levels
  */
 #define NVIC_IRQ_PRI0    0
-#define NVIC_IRQ_PRI15    15
+#define NVIC_IRQ_PRI2    2
+#define NVIC_IRQ_PRI15   15
 
 
 //some generic macros
@@ -621,7 +748,9 @@ typedef struct
 #define USART_SR_CTS        			9
 
 #include "stm32f446xx_gpio_driver.h"
-
-
-
+#include"STM32F446xx_rcc_driver.h"
+#include"STM32F446xx_uart_driver.h"
+#include"stm32f446xx_SysTick_driver.h"
+#include"stm32f446xx_spi_driver.h"
+#include"stm32f446xx_i2c_driver.h"
 #endif /* STM32F446XX_DRIVER_LAYER_STM32F446XX_H_ */
