@@ -106,72 +106,16 @@ typedef struct
 /*                      Driver exposed APIs                                   */
 /*                                                                            */
 /******************************************************************************/
-/*********************************************************************
- * @fn      		  - GPIO_PeriClockControl
- *
- * @brief             - This function enables or disables peripheral clock for the given GPIO port
- *
- * @param[in]         - base address of the gpio peripheral
- * @param[in]         - ENABLE or DISABLE macros
- * @param[in]         -
- *
- * @return            -  none
- *
- * @Note              -  none
 
- */
 void GPIO_PeriClockControl(GPIO_RegDef_t *pGPIOx, uint8_t EnorDi);
-
-/*
- * Init and De-init
- */
 void GPIO_Init(GPIO_Handle_t *pGPIOHandle);
-
-/**
-	* @brief  Initialisation of GPIO Pin and its Configuration
-	* @param  *GPIOx : GPIO Port Base address
-	* @param  pin_no : GPIO pin number
-	* @retval uint8_t: Value read
-	*/
 void GPIO_DeInit(GPIO_RegDef_t *pGPIOx);
-/**
-	* @brief  Deinitilization of GPIO Pin and its Configuration
-	* @param  *GPIOx : GPIO Port Base address
-	* @param  pin_no : GPIO pin number
-	* @retval uint8_t: Value read
-	*/
-
 uint8_t GPIO_ReadFromInputPin(GPIO_RegDef_t *pGPIOx, uint8_t PinNumber);
-/**
-	* @brief  Write a value to given pin number
-	* @param  *GPIOx : GPIO Port Base address
-	* @param  pin_no : GPIO pin number
-	* @param  value   : value to be written
-	* @retval None
-	*/
 uint16_t GPIO_ReadFromInputPort(GPIO_RegDef_t *pGPIOx);
 void GPIO_WriteToOutputPin(GPIO_RegDef_t *pGPIOx, uint8_t PinNumber, uint8_t Value);
-/**
-	* @brief  Set the alternate functionality for the given pin
-	* @param  *GPIOx : GPIO Port Base address
-	* @param  pin_no : GPIO pin number
-	* @param  alt_fun_value   :  alternate function to be configured with
-	* @retval None
-	*/
 void GPIO_WriteToOutputPort(GPIO_RegDef_t *pGPIOx, uint16_t Value);
 void GPIO_ToggleOutputPin(GPIO_RegDef_t *pGPIOx, uint8_t PinNumber);
-
-
-/*
- * IRQ Configuration and ISR handling
- */
 void GPIO_IRQInterruptConfig(uint8_t IRQNumber, uint8_t EnorDi);
-/**
-	* @brief  Enable the interrupt for a give pin number and irq number
-	* @param  pin_no : GPIO pin number
-	* @param  irq_no   :  irq_number to be enabled in NVIC
-	* @retval None
-	*/
 void GPIO_IRQPriorityConfig(uint8_t IRQNumber, uint32_t IRQPriority);
 void GPIO_IRQHandling(uint8_t PinNumber);
 

@@ -34,6 +34,11 @@
 #define NVIC_ICER2  		((__vo uint32_t*)0XE000E188)
 #define NVIC_ICER3			((__vo uint32_t*)0XE000E18C)
 
+/*
+ * ARM Cortex Mx Processor SysTick Register
+ */
+#define SCS_BASE            (0xE000E000UL)
+#define SysTick_BASE        (SCS_BASE +  0x0010UL)
 
 /*
  * ARM Cortex Mx Processor Priority Register Address Calculation
@@ -108,7 +113,7 @@
 #define USART6_BASEADDR						(APB2PERIPH_BASEADDR + 0x1400)
 
 
-
+#define SysTick             ((SysTick_Type   *)     SysTick_BASE  )   /*!< SysTick configuration struct */
 
 
 /**********************************peripheral register definition structures **********************************/
@@ -133,7 +138,16 @@ typedef struct
 	__vo uint32_t AFR[2];					 /*!< AFR[0] : GPIO alternate function low register, AF[1] : GPIO alternate function high register    		Address offset: 0x20-0x24 */
 }GPIO_RegDef_t;
 
-
+/*
+ * peripheral register definition structure for Systeck peripheral
+ */
+typedef struct
+{
+	__vo uint32_t CTRL;                   /*!< Offset: 0x000 (R/W)  SysTick Control and Status Register */
+	__vo uint32_t LOAD;                   /*!< Offset: 0x004 (R/W)  SysTick Reload Value Register */
+	__vo uint32_t VAL;                    /*!< Offset: 0x008 (R/W)  SysTick Current Value Register */
+	__vo  uint32_t CALIB;                  /*!< Offset: 0x00C (R/ )  SysTick Calibration Register */
+} SysTick_Type;
 
 /*
  * peripheral register definition structure for RCC
@@ -257,6 +271,11 @@ typedef struct
 	__vo uint32_t GTPR;       /*!< TODO,     										Address offset: 0x18 */
 } USART_RegDef_t;
 
+/*Some Useful Macros */
+#define Set_Bit(bit,position)             (bit|=(1<<position))
+#define Reset_Bit(bit,position)            (bit&=~(1<<position))
+
+#define  isBit_Set(bit,postion)				(bit &(1<<postion))
 /*
  * peripheral definitions ( Peripheral base addresses typecasted to xxx_RegDef_t)
  */
@@ -359,8 +378,21 @@ typedef struct
 /*
  * Clock Disable Macros for USARTx peripherals
  */
+#define USART1_PCCK_DI() (RCC->APB2ENR &= ~(1 << 4))
+#define USART2_PCCK_DI() (RCC->APB1ENR &= ~(1 << 17))
+#define USART3_PCCK_DI() (RCC->APB1ENR &= ~(1 << 18))
+#define UART4_PCCK_DI()  (RCC->APB1ENR &= ~(1 << 19))
+#define UART5_PCCK_DI()  (RCC->APB1ENR &= ~(1 << 20))
+#define USART6_PCCK_DI() (RCC->APB1ENR &= ~(1 << 5))
 
 
+/*
+ * Clock Disable Macros for SPIx peripherals
+ */
+#define SPI1_PCLK_DI() (RCC->APB2ENR &= ~(1 << 12))
+#define SPI2_PCLK_DI() (RCC->APB1ENR &= ~(1 << 14))
+#define SPI3_PCLK_DI() (RCC->APB1ENR &= ~(1 << 15))
+#define SPI4_PCLK_DI() (RCC->APB2ENR &= ~(1 << 13))
 /*
  * Clock Disable Macros for SYSCFG peripheral
  */
@@ -379,7 +411,12 @@ typedef struct
 #define GPIOH_REG_RESET()               do{ (RCC->AHB1RSTR |= (1 << 7)); (RCC->AHB1RSTR &= ~(1 << 7)); }while(0)
 #define GPIOI_REG_RESET()               do{ (RCC->AHB1RSTR |= (1 << 8)); (RCC->AHB1RSTR &= ~(1 << 8)); }while(0)
 
-
+/*
+ *  Macros to reset SPIx peripherals
+ */
+#define SPI1_REG_RESET()              	do{(RCC->AHB2RSTR |= (1 << 12)); (RCC->AHB2RSTR &= ~(1 << 12));}while(0)
+#define SPI2_REG_RESET()              	do{(RCC->AHB1RSTR |= (1 << 14)); (RCC->AHB2RSTR &= ~(1 << 14));}while(0)
+#define SPI3_REG_RESET()              	do{(RCC->AHB1RSTR |= (1 << 15)); (RCC->AHB2RSTR &= ~(1 << 15));}while(0)
 /*
  *  returns port code for given GPIOx base address
  */
@@ -428,6 +465,7 @@ typedef struct
  * macros for all the possible priority levels
  */
 #define NVIC_IRQ_PRI0    0
+#define NVIC_IRQ_PRI2    2
 #define NVIC_IRQ_PRI15    15
 
 
@@ -621,7 +659,8 @@ typedef struct
 #define USART_SR_CTS        			9
 
 #include "stm32f446xx_gpio_driver.h"
-
-
-
+#include"STM32F446xx_rcc_driver.h"
+#include"STM32F446xx_uart_driver.h"
+#include"stm32f446xx_SysTick_driver.h"
+#include"stm32f446xx_spi_driver.h"
 #endif /* STM32F446XX_DRIVER_LAYER_STM32F446XX_H_ */
