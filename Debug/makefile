@@ -52,6 +52,12 @@ default.size.stdout \
 OBJDUMP_LIST += \
 STM32_Drivers_Layer.list \
 
+OBJCOPY_HEX += \
+STM32_Drivers_Layer.hex \
+
+OBJCOPY_BIN += \
+STM32_Drivers_Layer.bin \
+
 
 # All Target
 all: main-build
@@ -60,8 +66,8 @@ all: main-build
 main-build: STM32_Drivers_Layer.elf secondary-outputs
 
 # Tool invocations
-STM32_Drivers_Layer.elf STM32_Drivers_Layer.map: $(OBJS) $(USER_OBJS) E:\Github\git_repository\STM32_Drivers\STM32_Drivers_Layer\STM32F446RETX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "STM32_Drivers_Layer.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"E:\Github\git_repository\STM32_Drivers\STM32_Drivers_Layer\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="STM32_Drivers_Layer.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+STM32_Drivers_Layer.elf STM32_Drivers_Layer.map: $(OBJS) $(USER_OBJS) E:\Github\git_repository\STM32_Drivers\STM32_i2c_application\STM32-Driver-Layer\STM32F446RETX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "STM32_Drivers_Layer.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"E:\Github\git_repository\STM32_Drivers\STM32_i2c_application\STM32-Driver-Layer\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="STM32_Drivers_Layer.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
@@ -75,12 +81,22 @@ STM32_Drivers_Layer.list: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_D
 	@echo 'Finished building: $@'
 	@echo ' '
 
+STM32_Drivers_Layer.hex: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-objcopy  -O ihex $(EXECUTABLES) "STM32_Drivers_Layer.hex"
+	@echo 'Finished building: $@'
+	@echo ' '
+
+STM32_Drivers_Layer.bin: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-objcopy  -O binary $(EXECUTABLES) "STM32_Drivers_Layer.bin"
+	@echo 'Finished building: $@'
+	@echo ' '
+
 # Other Targets
 clean:
-	-$(RM) STM32_Drivers_Layer.elf STM32_Drivers_Layer.list STM32_Drivers_Layer.map default.size.stdout
+	-$(RM) STM32_Drivers_Layer.bin STM32_Drivers_Layer.elf STM32_Drivers_Layer.hex STM32_Drivers_Layer.list STM32_Drivers_Layer.map default.size.stdout
 	-@echo ' '
 
-secondary-outputs: $(SIZE_OUTPUT) $(OBJDUMP_LIST)
+secondary-outputs: $(SIZE_OUTPUT) $(OBJDUMP_LIST) $(OBJCOPY_HEX) $(OBJCOPY_BIN)
 
 fail-specified-linker-script-missing:
 	@echo 'Error: Cannot find the specified linker script. Check the linker settings in the build configuration.'
