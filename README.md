@@ -1,0 +1,1 @@
+Bare-metal STM32F4xx drivers (GPIO/I2C/SPI/USART) written from scratch via direct register access—no HAL/LL. Optimized for performance with interrupt Modular, documented. Ideal for low-overhead embedded systems.
