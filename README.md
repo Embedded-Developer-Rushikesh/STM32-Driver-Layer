@@ -10,3 +10,6 @@ http://127.0.0.1:5500/i2d_doc.html
 
 SPI Driver Developement Doc
 http://127.0.0.1:5500/spi_doc.html
+
+UART Driver Developement Doc
+http://127.0.0.1:5500/uart_doc.html
